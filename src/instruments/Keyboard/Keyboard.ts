@@ -8,12 +8,6 @@ import NoteDurationControl from './NoteDurationControl/NoteDurationControl'
 import KeyboardKey from './KeyboardKey'
 import { createElement } from '../../modules/helpers'
 
-export interface IGainNodeOscillator {
-  gainNode: GainNode
-  oscillator: OscillatorNode
-  idle: boolean
-}
-
 class Keyboard {
   context: AudioContext
   parentElement: HTMLElement
@@ -21,14 +15,14 @@ class Keyboard {
   bodyElement: HTMLElement
   oscillatorType: OscillatorType
   gain: number
-  fadeDuration: number
+  gainNode: GainNode
+  noteDuration: number
   audioAnalyser: AnalyserNode
   octaves: number[]
   majorNotes: string[]
   minorNotes: string[]
   keyboardKeys: KeyboardKey[]
   width: number
-  gainNodeOscillators: IGainNodeOscillator[]
 
   constructor(
     context: AudioContext,
@@ -38,16 +32,12 @@ class Keyboard {
     this.context = context
     this.parentElement = parentElement
     this.oscillatorType = OscillatorType.SINE
-    this.gain = 0.5
-    this.fadeDuration = 5
+    this.gain = 0.2
+    this.noteDuration = 5
     this.audioAnalyser = audioAnalyser
-    this.gainNodeOscillators = []
 
-    for (let i = 0; i < 10; i++) {
-      this.gainNodeOscillators.push(this.createGainNodeOscillator())
-    }
+    /*this.gainNode = this.context.createGain()
 
-    /*
     var limiterNode = this.context.createDynamicsCompressor()
     limiterNode.threshold.setValueAtTime(-5.0, this.context.currentTime)
     limiterNode.knee.setValueAtTime(0, this.context.currentTime)
@@ -98,23 +88,6 @@ class Keyboard {
     this.addKeyListeners()
   }
 
-  private createGainNodeOscillator(): IGainNodeOscillator {
-    const gainNode = this.context.createGain()
-    gainNode.connect(this.context.destination)
-    gainNode.gain.value = this.gain
-    gainNode.connect(this.audioAnalyser)
-
-    const oscillator = this.context.createOscillator()
-    oscillator.type = this.oscillatorType
-    oscillator.connect(gainNode)
-
-    return {
-      gainNode: gainNode,
-      oscillator: oscillator,
-      idle: true,
-    }
-  }
-
   public render() {
     this.renderControls()
     this.renderKeyboard()
@@ -136,7 +109,7 @@ class Keyboard {
 
     const noteDurationControl = new NoteDurationControl(
       this.controlsContainer,
-      this.fadeDuration,
+      this.noteDuration,
       this.onFadeDurationChanged
     )
     noteDurationControl.render()
@@ -152,12 +125,14 @@ class Keyboard {
       for (const note of this.majorNotes) {
         const keyboardKey = new KeyboardKey(
           this.context,
-          this.gainNodeOscillators,
+          this.audioAnalyser,
           keyboardKeysContainer,
+          this.gain,
           note,
           octave,
           notes[note][octave],
-          this.fadeDuration,
+          this.noteDuration,
+          this.oscillatorType,
           'major-key'
         )
 
@@ -182,12 +157,14 @@ class Keyboard {
       for (const note of this.minorNotes) {
         const keyboardKey = new KeyboardKey(
           this.context,
-          this.gainNodeOscillators,
+          this.audioAnalyser,
           minorKeyGroup,
+          this.gain,
           note,
           octave,
           notes[note][octave],
-          this.fadeDuration,
+          this.noteDuration,
+          this.oscillatorType,
           'minor-key'
         )
 
@@ -205,7 +182,7 @@ class Keyboard {
       }
     }
 
-    minorKeyGroups.forEach((minorKeyGroup) => {
+    minorKeyGroups.forEach(minorKeyGroup => {
       const minorKeyWidth = 0.1 * minorKeyGroup.offsetWidth
       const padding = majorKeyWidth - 0.32 * minorKeyWidth
       minorKeyGroup.style.padding = '0 ' + padding + 'px'
@@ -298,15 +275,14 @@ class Keyboard {
   }
 
   public onOscillatorTypeChanged = (oscillatorType: OscillatorType) => {
-    this.gainNodeOscillators.forEach((gainNodeOscillator) => {
-      gainNodeOscillator.oscillator.type = oscillatorType
+    this.keyboardKeys.forEach((keyboardKey) => {
+      keyboardKey.changeOscillatorType(oscillatorType)
     })
   }
 
   public onGainChanged = (gain: number) => {
-    this.gain = gain
-    this.gainNodeOscillators.forEach((gainNodeOscillator) => {
-      gainNodeOscillator.gainNode.gain.value = gain
+    this.keyboardKeys.forEach((keyboardKey) => {
+      keyboardKey.changeGain(gain)
     })
   }
 

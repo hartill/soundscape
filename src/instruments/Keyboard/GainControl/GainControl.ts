@@ -5,6 +5,7 @@ class GainControl {
   bodyElement: HTMLElement
   onGainChanged: Function
   gain: number
+  maxGain: number
 
   constructor(
     parentElement: HTMLElement,
@@ -17,6 +18,7 @@ class GainControl {
     this.parentElement.appendChild(this.bodyElement)
     this.onGainChanged = onGainChanged
     this.gain = initialGain
+    this.maxGain = 0.4
   }
 
   render() {
@@ -52,7 +54,7 @@ class GainControl {
 
   private renderGainBars(containerElement: HTMLElement) {
     containerElement.innerHTML = ''
-    const percentageGain = Math.ceil((this.gain * 100) / 10) * 10
+    const percentageGain = Math.round((this.gain / this.maxGain) * 100)
     for (let i = 10; i <= 100; i += 10) {
       const gainBar = document.createElement('div')
       const extraClass = i <= percentageGain ? ' filled' : ''
@@ -63,15 +65,15 @@ class GainControl {
   }
 
   private increaseGain() {
-    if (this.gain < 1) {
-      this.gain = Math.round((this.gain + 0.1) * 10) / 10
+    if (this.gain < this.maxGain) {
+      this.gain = this.gain + this.maxGain / 10
       this.onGainChanged(this.gain)
     }
   }
 
   private decreaseGain() {
     if (this.gain > 0) {
-      this.gain = Math.round((this.gain - 0.1) * 10) / 10
+      this.gain = this.gain - this.maxGain / 10
       this.onGainChanged(this.gain)
     }
   }

@@ -1,35 +1,42 @@
-import { IGainNodeOscillator } from "./Keyboard"
-
 class KeyboardKey {
   context: AudioContext
   bodyElement: HTMLElement
-  gainNodeOscillators: IGainNodeOscillator[]
+  gainNode: GainNode
+  oscillator: OscillatorNode
+  oscillatorType: OscillatorType
   audioAnalyser: AnalyserNode
   frequency: number
   fadeDuration: number
+  gain: number
   note: string
   octave: number
   isPressed: boolean
 
   constructor(
     context: AudioContext,
-    gainNodeOscillators: IGainNodeOscillator[],
+    audioAnalyser: AnalyserNode,
     parentElement: HTMLElement,
+    gain: number,
     note: string,
     octave: number,
     frequency: number,
     fadeDuration: number,
+    oscillatorType: OscillatorType,
     extraClass: string
   ) {
     this.context = context
-    this.gainNodeOscillators = gainNodeOscillators
+    this.audioAnalyser = audioAnalyser
     this.bodyElement = document.createElement('div')
     this.bodyElement.className = 'keyboard-key ' + extraClass
     this.fadeDuration = fadeDuration
     this.frequency = frequency
+    this.oscillatorType = oscillatorType
+    this.gain = gain
     this.note = note
     this.octave = octave
     this.isPressed = false
+    this.gainNode = null
+    this.oscillator = null
 
     parentElement.appendChild(this.bodyElement)
 
@@ -64,33 +71,41 @@ class KeyboardKey {
       this.isPressed = false
     }
 
-    this.gainNodeOscillators.forEach((gainNodeOscillator) => {
-      console.log(gainNodeOscillator)
-      if (
-        !gainNodeOscillator.idle &&
-        gainNodeOscillator.oscillator.frequency.value === this.frequency
-      ) {
-        gainNodeOscillator.gainNode.gain.exponentialRampToValueAtTime(
-          0.00001,
-          this.context.currentTime + this.fadeDuration
-        )
-        window.setTimeout(() => gainNodeOscillator.idle = true, this.fadeDuration)
-        return
-      }
-    })
+    if (this.gainNode) {
+      this.gainNode.gain.exponentialRampToValueAtTime(
+        0.00001,
+        this.context.currentTime + this.fadeDuration
+      )
+
+      this.gainNode = null
+    }
+
+    if (this.oscillator) {
+      this.oscillator.stop(this.context.currentTime + this.fadeDuration + 0.03)
+      this.oscillator = null
+    }
   }
 
   private playNote() {
-    this.gainNodeOscillators.every((gainNodeOscillator) => {
-      if (gainNodeOscillator.idle) {
-        console.log(gainNodeOscillator)
-        gainNodeOscillator.oscillator.frequency.value = this.frequency
-        gainNodeOscillator.oscillator.start(0)
-        gainNodeOscillator.idle = false
-        return false
-      }
-      return true
-    })
+    this.gainNode = this.context.createGain()
+
+    this.gainNode.connect(this.context.destination)
+    this.gainNode.connect(this.audioAnalyser)
+    this.gainNode.gain.value = this.gain
+
+    this.oscillator = this.context.createOscillator()
+    this.oscillator.type = this.oscillatorType
+    this.oscillator.frequency.value = this.frequency
+    this.oscillator.connect(this.gainNode)
+    this.oscillator.start(0)
+  }
+
+  public changeOscillatorType = (oscillatorType: OscillatorType) => {
+    this.oscillatorType = oscillatorType
+  }
+
+  public changeGain = (gain: number) => {
+    this.gain = gain
   }
 
   public changeFadeDuration = (fadeDuration: number) => {

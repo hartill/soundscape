@@ -1,0 +1,47 @@
+.keyboard-gain-control {
+  background: #555;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: stretch;
+  justify-content: space-between;
+}
+
+.gain-control-indicator {
+  flex: 1;
+  padding: 2px;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: flex-end;
+  justify-content: flex-start;
+  outline: 2px solid #000;
+}
+
+.gain-bar {
+  width: 6px;
+  margin: 0 1px;
+  background: #444;
+}
+
+.filled {
+  background: #000;
+}
+
+.gain-buttons-container {
+  min-width: 30px;
+  line-height: 10px;
+  font-size: 1.2rem;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: stretch;
+  cursor: pointer;
+  margin-left: 2px;
+}
+
+.gain-btn {
+  flex: 1;
+  color: #999;
+  background: #383838;
+  text-align: center;
+  padding: 4px 10px;
+  border-bottom: 2px solid #000;
+}

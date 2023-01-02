@@ -1,0 +1,34 @@
+.keyboard-control-note-duration {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: stretch;
+  justify-content: space-between;
+}
+
+.note-duration-indicator {
+  background: #555;
+  min-width: 33px;
+  padding: 4px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #111;
+}
+
+.note-duration-buttons-container {
+  line-height: 10px;
+  font-size: 1.2rem;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: stretch;
+  cursor: pointer;
+}
+
+.note-duration-button {
+  flex: 1;
+  color: #999;
+  background: #383838;
+  padding: 4px 10px;
+  border-bottom: 2px solid #000;
+  text-align: center;
+}

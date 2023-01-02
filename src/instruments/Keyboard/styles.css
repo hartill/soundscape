@@ -1,0 +1,106 @@
+.keyboard-outer {
+  flex: 1 1 100%;
+  background: #222;
+  display: flex;
+  flex-flow: column nowrap;
+  border-bottom: 1rem solid #111;
+  padding: 0 0 1rem 0;
+}
+
+.keyboard-body-container {
+  flex-basis: 70%;
+  display: flex;
+}
+
+.keyboard-speaker {
+  flex: 1 1 10%;
+  margin: 0 1rem;
+  background: repeating-linear-gradient(
+    -45deg,
+    rgba(0,0,0,0.1),
+    rgba(0,0,0,0.1) 3px,
+    rgba(0,0,0,0.4) 3px,
+    rgba(0,0,0,0.4) 6px
+  );
+  border: 1px solid rgba(0,0,0,0.4);
+}
+
+.keyboard {
+  max-width: 1000px;
+  flex: 1 1 100%;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: stretch;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.keyboard-controls-container {
+  padding: 1rem;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: stretch;
+  justify-content: space-around;
+}
+
+.keyboard-keys-container {
+  border-top: 0.6rem solid #111;
+  position: relative;
+  flex: 1 1 0;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: stretch;
+  justify-content: space-between;
+}
+
+.keyboard-key {
+  border-bottom: 0.5rem solid rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+}
+
+.pressed {
+  border-bottom: 0.2rem solid rgba(0, 0, 0, 0.4);
+}
+
+.major-key {
+  flex: 1 1 20px;
+  background: #ccc;
+  margin-left: 2px;
+  margin-right: 2px;
+}
+
+.minor-keys-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 65%;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: stretch;
+  pointer-events: none;
+}
+
+.minor-key-group {
+  flex: 1;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: stretch;
+  justify-content: space-between;
+  margin-left: 2px;
+  margin-right: 2px;
+}
+
+.minor-key {
+  flex: 10% 0 0;
+  background: #353535;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  pointer-events: all;
+}
+
+.hidden {
+  opacity: 0;
+  pointer-events: none;
+}

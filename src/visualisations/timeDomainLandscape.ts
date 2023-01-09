@@ -49,8 +49,8 @@ export default class TimeDomainLandscape {
       let spacingX = (this.width - offsetX * 2) / 1024
       let points: ICoordinate[] = []
       this.timeDataArrayHistory[i].forEach((data, index) => {
-        const minHeight = scale(i, 0, this.historyLength, -20, -5)
-        const maxHeight = scale(i, 0, this.historyLength, 20, 5)
+        const minHeight = scale(i, 0, this.historyLength, -100, -5)
+        const maxHeight = scale(i, 0, this.historyLength, 100, 5)
         const y = scale(data, 0, 256, minHeight, maxHeight)
         points.push({
           x: offsetX + index * spacingX,

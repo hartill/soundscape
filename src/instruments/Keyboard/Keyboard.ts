@@ -32,19 +32,9 @@ class Keyboard {
     this.context = context
     this.parentElement = parentElement
     this.oscillatorType = OscillatorType.SINE
-    this.gain = 0.2
+    this.gain = 0.05
     this.noteDuration = 5
     this.audioAnalyser = audioAnalyser
-
-    /*this.gainNode = this.context.createGain()
-
-    var limiterNode = this.context.createDynamicsCompressor()
-    limiterNode.threshold.setValueAtTime(-5.0, this.context.currentTime)
-    limiterNode.knee.setValueAtTime(0, this.context.currentTime)
-    limiterNode.ratio.setValueAtTime(40.0, this.context.currentTime)
-    limiterNode.attack.setValueAtTime(0.001, this.context.currentTime)
-    limiterNode.release.setValueAtTime(0.1, this.context.currentTime)
-    this.gainNode.connect(limiterNode)*/
 
     const keybordOuterElement = createElement(
       this.parentElement,

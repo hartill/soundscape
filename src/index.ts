@@ -1,9 +1,8 @@
 import './styles.css'
-import { scale } from './modules/helpers'
 import Keyboard from './instruments/Keyboard/Keyboard'
 import AnimationController from './animationController'
 
-window.addEventListener('load', (event) => {
+window.addEventListener('load', () => {
   const bodyElement = document.body
 
   const roomViewer = document.createElement('div')
@@ -19,13 +18,18 @@ window.addEventListener('load', (event) => {
   bodyElement.appendChild(instrumentViewer)
 
   const context: AudioContext = new AudioContext()
+
   const audioAnalyser = context.createAnalyser()
   audioAnalyser.connect(context.destination)
 
   const keyboard = new Keyboard(context, instrumentViewer, audioAnalyser)
   keyboard.render()
 
-  const animationController = new AnimationController(roomViewer, ctx, audioAnalyser)
+  const animationController = new AnimationController(
+    roomViewer,
+    ctx,
+    audioAnalyser
+  )
 
   function animate() {
     ctx.clearRect(0, 0, htmlCanvas.width, htmlCanvas.height)

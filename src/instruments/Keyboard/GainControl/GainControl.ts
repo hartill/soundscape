@@ -18,7 +18,7 @@ class GainControl {
     this.parentElement.appendChild(this.bodyElement)
     this.onGainChanged = onGainChanged
     this.gain = initialGain
-    this.maxGain = 0.4
+    this.maxGain = 0.1
   }
 
   render() {

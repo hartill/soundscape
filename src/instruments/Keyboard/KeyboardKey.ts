@@ -48,6 +48,12 @@ class KeyboardKey {
       this.press()
     })
 
+    this.bodyElement.addEventListener('mouseover', (e) => {
+      if (e.buttons === 1) {
+        this.press()
+      }
+    })
+
     this.bodyElement.addEventListener('mouseup', () => {
       this.release()
     })
@@ -72,6 +78,7 @@ class KeyboardKey {
     }
 
     if (this.gainNode) {
+      this.gainNode.gain.value = this.gain
       this.gainNode.gain.exponentialRampToValueAtTime(
         0.00001,
         this.context.currentTime + this.fadeDuration
@@ -88,16 +95,19 @@ class KeyboardKey {
 
   private playNote() {
     this.gainNode = this.context.createGain()
-
-    this.gainNode.connect(this.context.destination)
-    this.gainNode.connect(this.audioAnalyser)
     this.gainNode.gain.value = this.gain
+
+    const limiterNode = this.context.createDynamicsCompressor()
 
     this.oscillator = this.context.createOscillator()
     this.oscillator.type = this.oscillatorType
     this.oscillator.frequency.value = this.frequency
-    this.oscillator.connect(this.gainNode)
-    this.oscillator.start(0)
+    this.oscillator
+      .connect(this.gainNode)
+      .connect(limiterNode)
+      .connect(this.audioAnalyser)
+      .connect(this.context.destination)
+    this.oscillator.start(this.context.currentTime)
   }
 
   public changeOscillatorType = (oscillatorType: OscillatorType) => {

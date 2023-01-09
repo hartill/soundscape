@@ -7,7 +7,7 @@ export default class AnimationController {
   constructor(parentElement: HTMLElement, ctx: CanvasRenderingContext2D, audioAnalyser: AnalyserNode) {
     ctx.canvas.width = parentElement.clientWidth
     ctx.canvas.height = parentElement.clientHeight
-    //this.visualisation = new WaveVisualisation(parentElement, ctx, audioAnalyser)
+    //this.visualiser = new WaveVisualisation(parentElement, ctx, audioAnalyser)
     //this.visualiser = new TimeDomainLandscape(parentElement, ctx, audioAnalyser)
     this.visualiser = new FrequencyDomainLandscape(parentElement, ctx, audioAnalyser)
   }

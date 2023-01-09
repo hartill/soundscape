@@ -53,7 +53,7 @@ export default class FrequencyDomainLandscape {
       let points: ICoordinate[] = []
       this.timeDataArrayHistory[i].forEach((data, index) => {
         apparentVolume += data
-        const maxHeight = scale(i, 0, this.historyLength, 30, 5)
+        const maxHeight = scale(i, 0, this.historyLength, 140, 5)
         const y = scale(data, 0, 256, 0, maxHeight)
         points.push({
           x: offsetX + index * spacingX,

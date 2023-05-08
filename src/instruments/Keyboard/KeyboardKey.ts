@@ -44,21 +44,25 @@ class KeyboardKey {
   }
 
   private addEventListeners() {
-    this.bodyElement.addEventListener('mousedown', () => {
+    this.bodyElement.addEventListener('pointerdown', () => {
       this.press()
     })
 
-    this.bodyElement.addEventListener('mouseover', (e) => {
-      if (e.buttons === 1) {
+    this.bodyElement.addEventListener('pointerover', (e) => {
+      if(e.pointerType === 'mouse') {
+        if (e.buttons === 1) {
+          this.press()
+        }
+      } else {
         this.press()
       }
     })
 
-    this.bodyElement.addEventListener('mouseup', () => {
+    this.bodyElement.addEventListener('pointerup', () => {
       this.release()
     })
 
-    this.bodyElement.addEventListener('mouseleave', () => {
+    this.bodyElement.addEventListener('pointerleave', () => {
       this.release()
     })
   }

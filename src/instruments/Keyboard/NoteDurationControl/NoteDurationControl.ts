@@ -35,7 +35,7 @@ class NoteDurationControl {
     noteDurationButtons.appendChild(keyboardVolumeIncreaseBtn)
     keyboardVolumeIncreaseBtn.textContent = '+'
 
-    keyboardVolumeIncreaseBtn.addEventListener('mousedown', () => {
+    keyboardVolumeIncreaseBtn.addEventListener('pointerdown', () => {
       this.increaseNoteDuration()
       noteDurationIndicator.textContent = this.noteDuration.toString()
     })
@@ -45,7 +45,7 @@ class NoteDurationControl {
     noteDurationButtons.appendChild(keyboardVolumeDecreaseBtn)
     keyboardVolumeDecreaseBtn.textContent = '-'
 
-    keyboardVolumeDecreaseBtn.addEventListener('mousedown', () => {
+    keyboardVolumeDecreaseBtn.addEventListener('pointerdown', () => {
       this.decreaseNoteDuration()
       noteDurationIndicator.textContent = this.noteDuration.toString()
     })

@@ -29,7 +29,7 @@ class OscillatorTypeControl {
     oscillatorTypeIndicator.className = 'oscillator-type-indicator'
     this.bodyElement.appendChild(oscillatorTypeIndicator)
 
-    this.bodyElement.addEventListener('mousedown', () => {
+    this.bodyElement.addEventListener('pointerdown', () => {
       this.changeOscillatorType()
       oscillatorTypeIndicator.style.left =
         this.selectedOscillator * 20 + 20 + '%'

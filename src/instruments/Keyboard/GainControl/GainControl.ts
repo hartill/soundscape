@@ -36,7 +36,7 @@ class GainControl {
     gainButtonsContainer.appendChild(increaseGainBtn)
     increaseGainBtn.textContent = '+'
 
-    increaseGainBtn.addEventListener('mousedown', () => {
+    increaseGainBtn.addEventListener('pointerdown', () => {
       this.increaseGain()
       this.renderGainBars(gainIndicator)
     })
@@ -46,7 +46,7 @@ class GainControl {
     gainButtonsContainer.appendChild(decreaseGainBtn)
     decreaseGainBtn.textContent = '-'
 
-    decreaseGainBtn.addEventListener('mousedown', () => {
+    decreaseGainBtn.addEventListener('pointerdown', () => {
       this.decreaseGain()
       this.renderGainBars(gainIndicator)
     })

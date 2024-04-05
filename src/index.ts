@@ -2,6 +2,8 @@ import './styles.css'
 import Keyboard from './instruments/Keyboard/Keyboard'
 import AnimationController from './animationController'
 
+require('file-loader?name=[name].[ext]!../index.html')
+
 window.addEventListener('load', () => {
   const bodyElement = document.body
 

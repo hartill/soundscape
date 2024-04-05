@@ -6,13 +6,14 @@ const isProduction = process.env.NODE_ENV == 'production'
 const config = {
   entry: './src/index.ts',
   output: {
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'build'),
     publicPath: '/',
     filename: 'bundle.js',
   },
   devServer: {
-    open: true,
+    hot: true,
     host: 'localhost',
+    historyApiFallback: true,
     static: {
       directory: path.join(__dirname, '/'),
     },

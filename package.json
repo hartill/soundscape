@@ -20,20 +20,21 @@
     "@types/webpack": "^5.28.0",
     "css-loader": "^6.7.1",
     "declaration-bundler-webpack-plugin": "^1.0.3",
+    "file-loader": "^6.2.0",
     "prettier": "^2.7.1",
     "style-loader": "^3.3.1",
+    "svg-inline-loader": "^0.8.2",
     "ts-loader": "^9.4.1",
     "typescript": "^4.8.4",
     "webpack": "^5.74.0",
-    "webpack-dev-server": "^4.11.1",
-    "file-loader": "^6.2.0",
-    "svg-inline-loader": "^0.8.2"
+    "webpack-dev-server": "^4.11.1"
   },
   "prettier": {
     "semi": false,
     "singleQuote": true
   },
   "dependencies": {
-    "uuid": "^9.0.0"
+    "uuid": "^9.0.0",
+    "webpack-cli": "^5.1.4"
   }
 }

@@ -36,7 +36,8 @@ window.addEventListener('load', () => {
   const keyboard = new Keyboard(instrumentViewer)
   keyboard.render(window.innerWidth)
 
-  const playDialog = new PlayDialog(document.body)
+  const playDialog = new PlayDialog()
+  playDialog.render(document.body)
 
   document.addEventListener('click', (e) => {
     if (!initialised) {

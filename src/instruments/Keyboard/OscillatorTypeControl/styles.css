@@ -1,17 +1,29 @@
 .keyboard-controls-oscillator-type {
   position: relative;
   flex: 100px 0 0;
-  height: 30px;
+  height: 40px;
   background: #444;
   border: 2px solid #000;
 }
 
 .oscillator-type-indicator {
   position: absolute;
-  top: 10px;
+  bottom: 7px;
   left: 20%;
   margin-left: -6px;
   border-left: 6px solid transparent;
   border-right: 6px solid transparent;
   border-bottom: 12px solid #999;
+}
+
+.oscillator-type-icons {
+  padding: 0 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.oscillator-type-icon {
+  width: 15px;
+  height: 15px;
 }

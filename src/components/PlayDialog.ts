@@ -1,6 +1,10 @@
+import './styles.css'
+
 export default class PlayDialog {
   rootElement: HTMLElement
-  constructor(parentElement: HTMLElement) {
+  constructor() {}
+
+  public render(parentElement: HTMLElement) {
     const playDialogMilk = document.createElement('div')
     playDialogMilk.id = 'play-dialog-milk'
     parentElement.appendChild(playDialogMilk)

@@ -9,7 +9,7 @@ import KeyboardKey from './KeyboardKey'
 import { createElement } from '../../modules/helpers'
 
 class Keyboard {
-  context: AudioContext
+  isInitialised: boolean
   parentElement: HTMLElement
   controlsContainer: HTMLElement
   bodyElement: HTMLElement
@@ -17,24 +17,19 @@ class Keyboard {
   gain: number
   gainNode: GainNode
   noteDuration: number
-  audioAnalyser: AnalyserNode
+  audioContext?: AudioContext
+  audioAnalyser?: AnalyserNode
   octaves: number[]
   majorNotes: string[]
   minorNotes: string[]
   keyboardKeys: KeyboardKey[]
   width: number
 
-  constructor(
-    context: AudioContext,
-    parentElement: HTMLElement,
-    audioAnalyser: AnalyserNode
-  ) {
-    this.context = context
+  constructor(parentElement: HTMLElement) {
     this.parentElement = parentElement
     this.oscillatorType = OscillatorType.SINE
     this.gain = 0.05
     this.noteDuration = 5
-    this.audioAnalyser = audioAnalyser
 
     const keybordOuterElement = createElement(
       this.parentElement,
@@ -59,13 +54,25 @@ class Keyboard {
     this.bodyElement = createElement(keyboardBodyContainer, 'div', 'keyboard')
 
     createElement(keyboardBodyContainer, 'div', 'keyboard-speaker')
+  }
 
-    this.width =
-      this.bodyElement.offsetWidth - 0.2 * this.bodyElement.offsetWidth
+  public initialise(audioContext: AudioContext, audioAnalyser: AnalyserNode) {
+    this.audioContext = audioContext
+    this.audioAnalyser = audioAnalyser
+
+    this.keyboardKeys.forEach((key) => {
+      key.initialise(this.audioContext, this.audioAnalyser)
+    })
+
+    this.addKeyListeners()
+  }
+
+  public render(windowWidth: number) {
+    this.width = windowWidth * 0.8
 
     this.octaves = [3]
 
-    if (this.width > 600) {
+    if (this.width > 660) {
       this.octaves = [3, 4, 5]
     } else if (this.width > 400) {
       this.octaves = [4, 5]
@@ -75,10 +82,7 @@ class Keyboard {
     this.minorNotes = ['C#', 'Eb', 'F#', 'G#', 'Bb']
 
     this.keyboardKeys = []
-    this.addKeyListeners()
-  }
 
-  public render() {
     this.renderControls()
     this.renderKeyboard()
   }
@@ -114,8 +118,6 @@ class Keyboard {
     for (const octave of this.octaves) {
       for (const note of this.majorNotes) {
         const keyboardKey = new KeyboardKey(
-          this.context,
-          this.audioAnalyser,
           keyboardKeysContainer,
           this.gain,
           note,
@@ -146,8 +148,6 @@ class Keyboard {
 
       for (const note of this.minorNotes) {
         const keyboardKey = new KeyboardKey(
-          this.context,
-          this.audioAnalyser,
           minorKeyGroup,
           this.gain,
           note,
@@ -172,7 +172,7 @@ class Keyboard {
       }
     }
 
-    minorKeyGroups.forEach(minorKeyGroup => {
+    minorKeyGroups.forEach((minorKeyGroup) => {
       const minorKeyWidth = 0.1 * minorKeyGroup.offsetWidth
       const padding = majorKeyWidth - 0.32 * minorKeyWidth
       minorKeyGroup.style.padding = '0 ' + padding + 'px'

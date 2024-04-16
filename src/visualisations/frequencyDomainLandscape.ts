@@ -33,6 +33,7 @@ export default class FrequencyDomainLandscape {
   }
 
   render() {
+    this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height)
     this.audioAnalyser.getByteFrequencyData(this.frequencyDataArray)
     const frequencyData = this.frequencyDataArray.slice(0, this.sampleSize)
 
@@ -43,6 +44,7 @@ export default class FrequencyDomainLandscape {
     this.timeDataArrayHistory.unshift(Array.from(frequencyData))
 
     let offsetX = 0
+    const offsetChange = this.width / 150
     for (
       let i = 0;
       i < this.timeDataArrayHistory.length;
@@ -66,7 +68,7 @@ export default class FrequencyDomainLandscape {
 
       drawCurveThroughPoints(this.ctx, points)
 
-      offsetX += 10
+      offsetX += offsetChange
     }
   }
 }

@@ -1,10 +1,10 @@
 class KeyboardKey {
-  context: AudioContext
   bodyElement: HTMLElement
   gainNode: GainNode
   oscillator: OscillatorNode
   oscillatorType: OscillatorType
-  audioAnalyser: AnalyserNode
+  audioContext?: AudioContext
+  audioAnalyser?: AnalyserNode
   frequency: number
   fadeDuration: number
   gain: number
@@ -13,8 +13,6 @@ class KeyboardKey {
   isPressed: boolean
 
   constructor(
-    context: AudioContext,
-    audioAnalyser: AnalyserNode,
     parentElement: HTMLElement,
     gain: number,
     note: string,
@@ -24,8 +22,6 @@ class KeyboardKey {
     oscillatorType: OscillatorType,
     extraClass: string
   ) {
-    this.context = context
-    this.audioAnalyser = audioAnalyser
     this.bodyElement = document.createElement('div')
     this.bodyElement.className = 'keyboard-key ' + extraClass
     this.fadeDuration = fadeDuration
@@ -39,6 +35,11 @@ class KeyboardKey {
     this.oscillator = null
 
     parentElement.appendChild(this.bodyElement)
+  }
+
+  public initialise(audioContext: AudioContext, audioAnalyser: AnalyserNode) {
+    this.audioContext = audioContext
+    this.audioAnalyser = audioAnalyser
 
     this.addEventListeners()
   }
@@ -49,7 +50,7 @@ class KeyboardKey {
     })
 
     this.bodyElement.addEventListener('pointerover', (e) => {
-      if(e.pointerType === 'mouse') {
+      if (e.pointerType === 'mouse') {
         if (e.buttons === 1) {
           this.press()
         }
@@ -85,33 +86,35 @@ class KeyboardKey {
       this.gainNode.gain.value = this.gain
       this.gainNode.gain.exponentialRampToValueAtTime(
         0.00001,
-        this.context.currentTime + this.fadeDuration
+        this.audioContext.currentTime + this.fadeDuration
       )
 
       this.gainNode = null
     }
 
     if (this.oscillator) {
-      this.oscillator.stop(this.context.currentTime + this.fadeDuration + 0.03)
+      this.oscillator.stop(
+        this.audioContext.currentTime + this.fadeDuration + 0.03
+      )
       this.oscillator = null
     }
   }
 
   private playNote() {
-    this.gainNode = this.context.createGain()
+    this.gainNode = this.audioContext.createGain()
     this.gainNode.gain.value = this.gain
 
-    const limiterNode = this.context.createDynamicsCompressor()
+    const limiterNode = this.audioContext.createDynamicsCompressor()
 
-    this.oscillator = this.context.createOscillator()
+    this.oscillator = this.audioContext.createOscillator()
     this.oscillator.type = this.oscillatorType
     this.oscillator.frequency.value = this.frequency
     this.oscillator
       .connect(this.gainNode)
       .connect(limiterNode)
       .connect(this.audioAnalyser)
-      .connect(this.context.destination)
-    this.oscillator.start(this.context.currentTime)
+      .connect(this.audioContext.destination)
+    this.oscillator.start(this.audioContext.currentTime)
   }
 
   public changeOscillatorType = (oscillatorType: OscillatorType) => {

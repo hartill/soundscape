@@ -1,13 +1,14 @@
 import './styles.css'
 import Keyboard from './instruments/Keyboard/Keyboard'
 import AnimationController from './animationController'
+import PlayDialog from './components/PlayDialog'
 
 require('file-loader?name=[name].[ext]!../index.html')
 
 window.addEventListener('load', () => {
   let initialised = false
-  const bodyElement = document.body
 
+  // Prevent magnify on IOS
   document.addEventListener(
     'touchstart',
     (e) => {
@@ -18,14 +19,14 @@ window.addEventListener('load', () => {
 
   const roomViewer = document.createElement('div')
   roomViewer.className = 'room-viewer'
-  bodyElement.appendChild(roomViewer)
+  document.body.appendChild(roomViewer)
 
   const canvas = <HTMLCanvasElement>document.createElement('canvas')
   roomViewer.appendChild(canvas)
 
   const instrumentViewer = document.createElement('div')
   instrumentViewer.className = 'instrument-viewer'
-  bodyElement.appendChild(instrumentViewer)
+  document.body.appendChild(instrumentViewer)
 
   canvas.width = roomViewer.clientWidth
   canvas.height = roomViewer.clientHeight
@@ -35,8 +36,11 @@ window.addEventListener('load', () => {
   const keyboard = new Keyboard(instrumentViewer)
   keyboard.render(window.innerWidth)
 
+  const playDialog = new PlayDialog(document.body)
+
   document.addEventListener('click', (e) => {
     if (!initialised) {
+      playDialog.destroy()
       const audioContext: AudioContext = new AudioContext()
 
       const audioAnalyser = audioContext.createAnalyser()

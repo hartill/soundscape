@@ -41,6 +41,8 @@ export default class WaveVisualisation {
   }
 
   render() {
+    this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height)
+    
     this.audioAnalyser.getByteFrequencyData(this.frequencyDataArray)
 
     const frequencyData = this.frequencyDataArray.slice(0, this.sampleSize)

@@ -11,10 +11,11 @@ export default class AnimationController {
   }
 
   public initialise() {
-    setInterval(this.update.bind(this), 1000 / 60)
+    requestAnimationFrame(this.update.bind(this))
   }
 
   private update() {
+    requestAnimationFrame(this.update.bind(this))
     this.visualiser.render()
   }
 }

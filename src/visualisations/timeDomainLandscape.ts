@@ -31,6 +31,8 @@ export default class TimeDomainLandscape {
   }
 
   render() {
+    this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height)
+    
     this.audioAnalyser.getByteTimeDomainData(this.timeDataArray)
     //this.audioAnalyser.getByteFrequencyData(this.timeDataArray)
 

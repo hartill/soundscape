@@ -35,7 +35,7 @@ const config = {
       },
       {
         test: /\.svg$/,
-        use: 'svg-inline-loader',
+        type: 'asset/inline',
       },
     ],
   },

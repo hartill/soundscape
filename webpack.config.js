@@ -37,12 +37,8 @@ const config = {
         use: ['style-loader', 'css-loader'],
       },
       {
-        test: /\.less$/i,
-        use: ['less-loader'],
-      },
-      {
         test: /\.svg$/,
-        use: 'svg-inline-loader',
+        type: 'asset/source',
       },
       {
         test: /\.(jpe?g|png|gif)$/i,

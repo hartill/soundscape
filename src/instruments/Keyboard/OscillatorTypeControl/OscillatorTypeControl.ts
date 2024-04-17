@@ -2,7 +2,7 @@ import './styles.css'
 import sineIcon from '../../../icons/sine.svg'
 import squareIcon from '../../../icons/square.svg'
 import triangleIcon from '../../../icons/triangle.svg'
-import sawToothIcon from '../../../icons/sawTooth.svg'
+import sawToothIcon from '../../../icons/sawtooth.svg'
 
 export enum OscillatorType {
   SINE = 'sine',

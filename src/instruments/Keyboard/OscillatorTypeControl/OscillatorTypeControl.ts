@@ -1,8 +1,8 @@
 import './styles.css'
-const sineIcon = require('./../../../icons/sine.svg')
-const squareIcon = require('./../../../icons/square.svg')
-const triangleIcon = require('./../../../icons/triangle.svg')
-const sawToothIcon = require('./../../../icons/sawTooth.svg')
+const sineIcon = require('../../../icons/sine.svg')
+const squareIcon = require('../../../icons/square.svg')
+const triangleIcon = require('../../../icons/triangle.svg')
+const sawToothIcon = require('../../../icons/sawTooth.svg')
 
 export enum OscillatorType {
   SINE = 'sine',
@@ -35,23 +35,23 @@ class OscillatorTypeControl {
     oscillatorTypeIcons.className = 'oscillator-type-icons'
     this.bodyElement.appendChild(oscillatorTypeIcons)
 
-    const sineIconImg = new Image()
-    sineIconImg.src = sineIcon
-    sineIconImg.className = 'oscillator-type-icon'
-    oscillatorTypeIcons.appendChild(sineIconImg)
+    const sineIconDiv = document.createElement('div')
+    sineIconDiv.innerHTML = sineIcon
+    sineIconDiv.className = 'oscillator-type-icon'
+    oscillatorTypeIcons.appendChild(sineIconDiv)
 
-    const squareIconImg = new Image()
-    squareIconImg.src = squareIcon
-    squareIconImg.className = 'oscillator-type-icon'
-    oscillatorTypeIcons.appendChild(squareIconImg)
+    const squareIconDiv = document.createElement('div')
+    squareIconDiv.innerHTML = squareIcon
+    squareIconDiv.className = 'oscillator-type-icon'
+    oscillatorTypeIcons.appendChild(squareIconDiv)
 
-    const triangleIconImg = new Image()
-    triangleIconImg.src = triangleIcon
-    triangleIconImg.className = 'oscillator-type-icon'
-    oscillatorTypeIcons.appendChild(triangleIconImg)
+    const triangleIconDiv = document.createElement('div')
+    triangleIconDiv.innerHTML = triangleIcon
+    triangleIconDiv.className = 'oscillator-type-icon'
+    oscillatorTypeIcons.appendChild(triangleIconDiv)
 
-    const sawIconImg = new Image()
-    sawIconImg.src = sawToothIcon
+    const sawIconImg = document.createElement('div')
+    sawIconImg.innerHTML = sawToothIcon
     sawIconImg.className = 'oscillator-type-icon'
     oscillatorTypeIcons.appendChild(sawIconImg)
 

@@ -1,15 +1,17 @@
 // Generated using webpack-cli https://github.com/webpack/webpack-cli
 
 const path = require('path')
+const webpack = require('webpack')
 const isProduction = process.env.NODE_ENV == 'production'
 
 const config = {
   entry: './src/index.ts',
   output: {
     path: path.resolve(__dirname, 'build'),
-    publicPath: '/',
     filename: 'bundle.js',
+    publicPath: '/',
   },
+  plugins: [new webpack.HotModuleReplacementPlugin()],
   devServer: {
     hot: true,
     host: 'localhost',
@@ -26,16 +28,33 @@ const config = {
         exclude: ['/node_modules/'],
       },
       {
+        test: /\.(js|jsx)$/,
+        exclude: /node_modules/,
+        use: ['babel-loader'],
+      },
+      {
         test: /\.css$/i,
         use: ['style-loader', 'css-loader'],
       },
       {
-        test: /\.(eot|ttf|woff|woff2|png|jpg|gif)$/i,
-        type: 'asset',
+        test: /\.less$/i,
+        use: ['less-loader'],
       },
       {
         test: /\.svg$/,
-        type: 'asset/inline',
+        use: 'svg-inline-loader',
+      },
+      {
+        test: /\.(jpe?g|png|gif)$/i,
+        use: [
+          {
+            loader: 'file-loader',
+          },
+        ],
+      },
+      {
+        test: /\.(ttf|eot|woff|woff2)$/,
+        type: 'asset/resource',
       },
     ],
   },

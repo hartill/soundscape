@@ -1,8 +1,8 @@
 import './styles.css'
-const sineIcon = require('../../../icons/sine.svg')
-const squareIcon = require('../../../icons/square.svg')
-const triangleIcon = require('../../../icons/triangle.svg')
-const sawToothIcon = require('../../../icons/sawTooth.svg')
+import sineIcon from '../../../icons/sine.svg'
+import squareIcon from '../../../icons/square.svg'
+import triangleIcon from '../../../icons/triangle.svg'
+import sawToothIcon from '../../../icons/sawTooth.svg'
 
 export enum OscillatorType {
   SINE = 'sine',

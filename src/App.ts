@@ -1,4 +1,4 @@
-import AnimationController from './test'
+import AnimationController from './AnimationController'
 import PlayDialog from './components/PlayDialog'
 import Keyboard from './instruments/Keyboard/Keyboard'
 

@@ -1,4 +1,4 @@
-import AnimationController from './AnimationController'
+import AnimationController from './test'
 import PlayDialog from './components/PlayDialog'
 import Keyboard from './instruments/Keyboard/Keyboard'
 
@@ -39,7 +39,7 @@ export default class App {
     const audioAnalyser = audioContext.createAnalyser()
     audioAnalyser.connect(audioContext.destination)
 
-    this.keyboard.initialise(audioContext, audioAnalyser, this.changeVisualiser.bind(this))
+    this.keyboard.initialise(audioContext, audioAnalyser, () => null)
 
     this.animationController = new AnimationController(
       this.roomViewer,

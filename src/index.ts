@@ -1,5 +1,5 @@
 import './styles.css'
-import App from './App'
+import App from './test2'
 
 require('file-loader?name=[name].[ext]!../index.html')
 

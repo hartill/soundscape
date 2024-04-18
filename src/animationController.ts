@@ -1,11 +1,10 @@
 import WaveVisualisation from './visualisations/waveVisualisation'
-import TimeDomainLandscape from './visualisations/timeDomainLandscape'
 import FrequencyDomainLandscape from './visualisations/frequencyDomainLandscape'
 export default class AnimationController {
   parentElement: HTMLElement
   ctx: CanvasRenderingContext2D
   audioAnalyser: AnalyserNode
-  visualiser: WaveVisualisation | TimeDomainLandscape | FrequencyDomainLandscape
+  visualiser: WaveVisualisation | FrequencyDomainLandscape
   selectedVisualiser: number
   constructor(
     parentElement: HTMLElement,
@@ -23,7 +22,7 @@ export default class AnimationController {
   public toggleVisualiser() {
     this.selectedVisualiser += 1
 
-    if (this.selectedVisualiser > 2) {
+    if (this.selectedVisualiser > 1) {
       this.selectedVisualiser = 0
     }
 
@@ -40,13 +39,6 @@ export default class AnimationController {
         )
         return
       case 1:
-        this.visualiser = new TimeDomainLandscape(
-          this.parentElement,
-          this.ctx,
-          this.audioAnalyser
-        )
-        return
-      case 2:
         this.visualiser = new WaveVisualisation(
           this.parentElement,
           this.ctx,

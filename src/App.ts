@@ -7,6 +7,7 @@ export default class App {
   keyboard: Keyboard
   ctx: CanvasRenderingContext2D
   roomViewer: HTMLElement
+  animationController: AnimationController
   constructor() {
     this.roomViewer = document.createElement('div')
     this.roomViewer.className = 'room-viewer'
@@ -38,14 +39,18 @@ export default class App {
     const audioAnalyser = audioContext.createAnalyser()
     audioAnalyser.connect(audioContext.destination)
 
-    this.keyboard.initialise(audioContext, audioAnalyser)
+    this.keyboard.initialise(audioContext, audioAnalyser, this.changeVisualiser.bind(this))
 
-    const animationController = new AnimationController(
+    this.animationController = new AnimationController(
       this.roomViewer,
       this.ctx,
       audioAnalyser
     )
 
-    animationController.initialise()
+    this.animationController.initialise()
+  }
+
+  public changeVisualiser() {
+    this.animationController?.toggleVisualiser()
   }
 }

@@ -45,6 +45,8 @@ canvas {
 .instrument-viewer {
   background: #111;
   flex: 1 0 0;
+  min-height: 180px;
+  max-height: 220px;
   display: flex;
   align-items: stretch;
   justify-content: center;

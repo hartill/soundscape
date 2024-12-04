@@ -13,6 +13,18 @@ window.addEventListener('load', () => {
     false
   )
 
+  document.addEventListener(
+    'dblclick',
+    (e) => {
+      e.preventDefault()
+    },
+    false
+  )
+
+  document.addEventListener('contextmenu', (e) => {
+    e.preventDefault()
+  })
+
   const app = new App()
 
   const initialise = () => {

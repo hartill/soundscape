@@ -45,11 +45,13 @@ class KeyboardKey {
   }
 
   private addEventListeners() {
-    this.bodyElement.addEventListener('pointerdown', () => {
+    this.bodyElement.addEventListener('pointerdown', (e: PointerEvent) => {
+      this.bodyElement.releasePointerCapture(e.pointerId)
       this.press()
     })
 
-    this.bodyElement.addEventListener('pointerover', (e) => {
+    this.bodyElement.addEventListener('pointerover', (e: PointerEvent) => {
+      this.bodyElement.releasePointerCapture(e.pointerId)
       if (e.pointerType === 'mouse') {
         if (e.buttons === 1) {
           this.press()

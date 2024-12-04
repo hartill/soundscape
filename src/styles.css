@@ -12,13 +12,17 @@ body {
   flex-flow: column nowrap;
   align-items: stretch;
   background: #1abc9c;
-  touch-action: none;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
+}
+
+* {
+  -webkit-touch-callout: none !important;
+  -webkit-user-select: none !important;
   -khtml-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
+  -webkit-tap-highlight-color: transparent;
   user-select: none;
+  touch-action: none;
 }
 
 li {

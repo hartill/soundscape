@@ -12,6 +12,7 @@ body {
   flex-flow: column nowrap;
   align-items: stretch;
   background: #1abc9c;
+  overflow: hidden;
 }
 
 * {
@@ -34,17 +35,16 @@ ul {
 }
 
 .room-viewer {
-  flex: 2 0 0;
+  flex: 2;
   display: flex;
 }
 
 canvas {
-  flex: 1 1 1;
+  flex: 1;
 }
 
 .instrument-viewer {
   background: #111;
-  flex: 1 0 0;
   min-height: 180px;
   max-height: 220px;
   display: flex;

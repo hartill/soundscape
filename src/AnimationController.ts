@@ -56,4 +56,8 @@ export default class AnimationController {
     requestAnimationFrame(this.update.bind(this))
     this.visualiser.render()
   }
+
+  public onWindowSizeChange() {
+    this.visualiser.onWindowSizeChange()
+  }
 }

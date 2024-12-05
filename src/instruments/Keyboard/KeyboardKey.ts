@@ -1,3 +1,5 @@
+import { OscillatorType } from "./OscillatorTypeControl/OscillatorTypeControl"
+
 class KeyboardKey {
   bodyElement: HTMLElement
   gainNode: GainNode
@@ -85,7 +87,7 @@ class KeyboardKey {
     }
 
     if (this.gainNode) {
-      this.gainNode.gain.value = this.gain
+      this.gainNode.gain.value = this.normaliseGain(this.gain)
       this.gainNode.gain.exponentialRampToValueAtTime(
         0.00001,
         this.audioContext.currentTime + this.fadeDuration
@@ -102,9 +104,27 @@ class KeyboardKey {
     }
   }
 
+  private normaliseGain(gainIn: number): number {
+    let gain = gainIn
+
+    switch(this.oscillatorType) {
+      case OscillatorType.SQUARE:
+        gain = this.gain * 0.65
+        break
+      case OscillatorType.TRIANGLE:
+        gain = this.gain * 1.1
+        break
+      case OscillatorType.SAWTOOTH:
+        gain = this.gain * 0.85
+        break
+    }
+
+    return gain
+  }
+
   private playNote() {
     this.gainNode = this.audioContext.createGain()
-    this.gainNode.gain.value = this.gain
+    this.gainNode.gain.value = this.normaliseGain(this.gain)
 
     const limiterNode = this.audioContext.createDynamicsCompressor()
 

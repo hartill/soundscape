@@ -14,11 +14,13 @@ export default class FrequencyDomainLandscape {
   spacingY: number
   historyLength: number
   timeOffset: number
+  parentElement: HTMLElement
   constructor(
     parentElement: HTMLElement,
     ctx: CanvasRenderingContext2D,
     audioAnalyser: AnalyserNode
   ) {
+    this.parentElement = parentElement
     this.ctx = ctx
     this.audioAnalyser = audioAnalyser
     this.frequencyDataArray = new Uint8Array(1024)
@@ -70,5 +72,10 @@ export default class FrequencyDomainLandscape {
 
       offsetX += offsetChange
     }
+  }
+
+  public onWindowSizeChange() {
+    this.width = this.parentElement.clientWidth
+    this.height = this.parentElement.clientHeight
   }
 }

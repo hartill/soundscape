@@ -23,6 +23,7 @@ class Keyboard {
   majorNotes: string[]
   minorNotes: string[]
   keyboardKeys: KeyboardKey[]
+  keyboardKeysContainer?: HTMLElement
   width: number
   changeVisualiser?: () => void
 
@@ -31,6 +32,9 @@ class Keyboard {
     this.oscillatorType = OscillatorType.SINE
     this.gain = 0.05
     this.noteDuration = 5
+    this.majorNotes = ['C', 'D', 'E', 'F', 'G', 'A', 'B']
+    this.minorNotes = ['C#', 'Eb', 'F#', 'G#', 'Bb']
+    this.octaves = [3]
 
     const keybordOuterElement = createElement(
       this.parentElement,
@@ -57,7 +61,11 @@ class Keyboard {
     createElement(keyboardBodyContainer, 'div', 'keyboard-speaker')
   }
 
-  public initialise(audioContext: AudioContext, audioAnalyser: AnalyserNode, changeVisualiser: () => void) {
+  public initialise(
+    audioContext: AudioContext,
+    audioAnalyser: AnalyserNode,
+    changeVisualiser: () => void
+  ) {
     this.audioContext = audioContext
     this.audioAnalyser = audioAnalyser
 
@@ -72,21 +80,36 @@ class Keyboard {
   public render(windowWidth: number) {
     this.width = windowWidth * 0.8
 
-    this.octaves = [3]
-
     if (this.width > 660) {
       this.octaves = [3, 4, 5]
     } else if (this.width > 400) {
       this.octaves = [4, 5]
     }
 
-    this.majorNotes = ['C', 'D', 'E', 'F', 'G', 'A', 'B']
-    this.minorNotes = ['C#', 'Eb', 'F#', 'G#', 'Bb']
-
     this.keyboardKeys = []
 
     this.renderControls()
     this.renderKeyboard()
+  }
+
+  public onWindowResize(windowWidth: number) {
+    this.width = windowWidth * 0.8
+
+    if (this.width > 660) {
+      this.octaves = [3, 4, 5]
+    } else if (this.width > 400) {
+      this.octaves = [4, 5]
+    } else {
+      this.octaves = [3]
+    }
+
+    this.keyboardKeys = []
+
+    this.renderKeyboard()
+
+    this.keyboardKeys.forEach((key) => {
+      key.initialise(this.audioContext, this.audioAnalyser)
+    })
   }
 
   private renderControls() {
@@ -112,15 +135,20 @@ class Keyboard {
   }
 
   private renderKeyboard() {
-    const keyboardKeysContainer = document.createElement('div')
-    keyboardKeysContainer.className = 'keyboard-keys-container'
-    this.bodyElement.appendChild(keyboardKeysContainer)
+    if (!this.keyboardKeysContainer) {
+      this.keyboardKeysContainer = document.createElement('div')
+      this.keyboardKeysContainer.className = 'keyboard-keys-container'
+      this.bodyElement.appendChild(this.keyboardKeysContainer)
+    } else {
+      this.keyboardKeysContainer.innerHTML = ''
+    }
+
     let majorKeyWidth = 0
 
     for (const octave of this.octaves) {
       for (const note of this.majorNotes) {
         const keyboardKey = new KeyboardKey(
-          keyboardKeysContainer,
+          this.keyboardKeysContainer,
           this.gain,
           note,
           octave,
@@ -137,7 +165,7 @@ class Keyboard {
 
     const minorKeyContainer = document.createElement('div')
     minorKeyContainer.className = 'minor-keys-container'
-    keyboardKeysContainer.appendChild(minorKeyContainer)
+    this.keyboardKeysContainer.appendChild(minorKeyContainer)
 
     let minorKeyGroups: HTMLElement[] = []
 

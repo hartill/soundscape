@@ -11,11 +11,13 @@ export default class WaveVisualisation {
   timeDataArray: Uint8Array
   sampleSize: number
   spacingX: number
+  parentElement: HTMLElement
   constructor(
     parentElement: HTMLElement,
     ctx: CanvasRenderingContext2D,
     audioAnalyser: AnalyserNode
   ) {
+    this.parentElement = parentElement
     this.ctx = ctx
     this.audioAnalyser = audioAnalyser
     this.frequencyDataArray = new Uint8Array(1024)
@@ -41,6 +43,7 @@ export default class WaveVisualisation {
   }
 
   render() {
+    const height = this.ctx.canvas.height
     this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height)
     
     this.audioAnalyser.getByteFrequencyData(this.frequencyDataArray)
@@ -51,11 +54,11 @@ export default class WaveVisualisation {
     frequencyData.forEach((data, index) => {
       if (data > 20) {
         apparentVolume += data
-        const radius = scale(index, 0, this.sampleSize, 0, this.height)
+        const radius = scale(index, 0, this.sampleSize, 0, height)
         const opacity = scale(data, 0, 256, 0, 1)
         this.ctx.strokeStyle = `rgba(20,20,20,${opacity})`
         this.ctx.beginPath()
-        this.ctx.arc(this.width / 2, this.height / 2, radius, 0, 2 * Math.PI)
+        this.ctx.arc(this.width / 2, height / 2, radius, 0, 2 * Math.PI)
         this.ctx.closePath()
         this.ctx.stroke()
       }
@@ -75,5 +78,10 @@ export default class WaveVisualisation {
 
       drawCurveThroughPoints(this.ctx, points)
     }
+  }
+
+  public onWindowSizeChange() {
+    this.width = this.parentElement.clientWidth
+    this.height = this.parentElement.clientHeight
   }
 }

@@ -8,11 +8,9 @@ body {
   left: 0;
   right: 0;
   font-family: 'Source Sans Pro', 'Arial', sans-serif;
-  display: flex;
-  flex-flow: column nowrap;
-  align-items: stretch;
-  background: #1abc9c;
   overflow: hidden;
+  font-size: 16px;
+  line-height: 1.5rem;
 }
 
 * {
@@ -31,23 +29,21 @@ li {
 }
 
 ul {
+  margin: 0;
   padding-left: 1rem;
 }
 
-.room-viewer {
-  flex: 2;
+#root {
+  margin: 0;
+  padding: 0;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
   display: flex;
-}
-
-canvas {
-  flex: 1;
-}
-
-.instrument-viewer {
-  background: #111;
-  min-height: 180px;
-  max-height: 220px;
-  display: flex;
+  flex-flow: column nowrap;
   align-items: stretch;
-  justify-content: center;
+  background: #1abc9c;
+  overflow: hidden;
 }

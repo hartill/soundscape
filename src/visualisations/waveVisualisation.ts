@@ -3,8 +3,6 @@ import { ICoordinate } from '../modules/types'
 
 export default class WaveVisualisation {
   ctx: CanvasRenderingContext2D
-  width: number
-  height: number
   colors: string[]
   audioAnalyser: AnalyserNode
   frequencyDataArray: Uint8Array
@@ -23,9 +21,7 @@ export default class WaveVisualisation {
     this.frequencyDataArray = new Uint8Array(1024)
     this.timeDataArray = new Uint8Array(1024)
     this.sampleSize = 128
-    this.width = parentElement.clientWidth
-    this.height = parentElement.clientHeight
-    this.spacingX = this.width / 1024
+    this.spacingX = this.ctx.canvas.width / 1024
   }
 
   calculateYWavePosition(input: number) {
@@ -45,7 +41,7 @@ export default class WaveVisualisation {
   render() {
     const height = this.ctx.canvas.height
     this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height)
-    
+
     this.audioAnalyser.getByteFrequencyData(this.frequencyDataArray)
 
     const frequencyData = this.frequencyDataArray.slice(0, this.sampleSize)
@@ -58,7 +54,13 @@ export default class WaveVisualisation {
         const opacity = scale(data, 0, 256, 0, 1)
         this.ctx.strokeStyle = `rgba(20,20,20,${opacity})`
         this.ctx.beginPath()
-        this.ctx.arc(this.width / 2, height / 2, radius, 0, 2 * Math.PI)
+        this.ctx.arc(
+          this.ctx.canvas.width / 2,
+          height / 2,
+          radius,
+          0,
+          2 * Math.PI
+        )
         this.ctx.closePath()
         this.ctx.stroke()
       }
@@ -78,10 +80,5 @@ export default class WaveVisualisation {
 
       drawCurveThroughPoints(this.ctx, points)
     }
-  }
-
-  public onWindowSizeChange() {
-    this.width = this.parentElement.clientWidth
-    this.height = this.parentElement.clientHeight
   }
 }

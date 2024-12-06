@@ -25,7 +25,6 @@ class Keyboard {
   keyboardKeys: KeyboardKey[]
   keyboardKeysContainer?: HTMLElement
   width: number
-  changeVisualiser?: () => void
 
   constructor(parentElement: HTMLElement) {
     this.parentElement = parentElement
@@ -61,11 +60,7 @@ class Keyboard {
     createElement(keyboardBodyContainer, 'div', 'keyboard-speaker')
   }
 
-  public initialise(
-    audioContext: AudioContext,
-    audioAnalyser: AnalyserNode,
-    changeVisualiser: () => void
-  ) {
+  public initialise(audioContext: AudioContext, audioAnalyser: AnalyserNode) {
     this.audioContext = audioContext
     this.audioAnalyser = audioAnalyser
 
@@ -74,7 +69,6 @@ class Keyboard {
     })
 
     this.addKeyListeners()
-    this.changeVisualiser = changeVisualiser
   }
 
   public render(windowWidth: number) {
@@ -298,8 +292,6 @@ class Keyboard {
     this.keyboardKeys.forEach((keyboardKey) => {
       keyboardKey.changeOscillatorType(oscillatorType)
     })
-
-    this.changeVisualiser()
   }
 
   public onGainChanged = (gain: number) => {

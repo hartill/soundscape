@@ -3,8 +3,6 @@ import { ICoordinate } from '../modules/types'
 
 export default class FrequencyDomainLandscape {
   ctx: CanvasRenderingContext2D
-  width: number
-  height: number
   colors: string[]
   audioAnalyser: AnalyserNode
   frequencyDataArray: Uint8Array
@@ -25,16 +23,17 @@ export default class FrequencyDomainLandscape {
     this.audioAnalyser = audioAnalyser
     this.frequencyDataArray = new Uint8Array(1024)
     this.sampleSize = 64
-    this.width = parentElement.clientWidth
-    this.height = parentElement.clientHeight
-    this.spacingX = this.width / 1024
+    this.spacingX = ctx.canvas.width / 1024
     this.historyLength = 150
     this.timeOffset = 3
-    this.spacingY = (this.height - 40) / (this.historyLength - 1)
+    this.spacingY = (ctx.canvas.height - 40) / (this.historyLength - 1)
     this.timeDataArrayHistory = []
   }
 
   render() {
+    this.spacingX = this.ctx.canvas.width / 1024
+    this.spacingY = (this.ctx.canvas.height - 40) / (this.historyLength - 1)
+
     this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height)
     this.audioAnalyser.getByteFrequencyData(this.frequencyDataArray)
     const frequencyData = this.frequencyDataArray.slice(0, this.sampleSize)
@@ -46,14 +45,14 @@ export default class FrequencyDomainLandscape {
     this.timeDataArrayHistory.unshift(Array.from(frequencyData))
 
     let offsetX = 0
-    const offsetChange = this.width / 150
+    const offsetChange = this.ctx.canvas.width / 150
     for (
       let i = 0;
       i < this.timeDataArrayHistory.length;
       i += this.timeOffset
     ) {
       let apparentVolume = 0
-      let spacingX = (this.width - offsetX * 2) / this.sampleSize
+      let spacingX = (this.ctx.canvas.width - offsetX * 2) / this.sampleSize
       let points: ICoordinate[] = []
       this.timeDataArrayHistory[i].forEach((data, index) => {
         apparentVolume += data
@@ -61,7 +60,7 @@ export default class FrequencyDomainLandscape {
         const y = scale(data, 0, 256, 0, maxHeight)
         points.push({
           x: offsetX + index * spacingX,
-          y: this.height - 20 - i * this.spacingY - y,
+          y: this.ctx.canvas.height - 20 - i * this.spacingY - y,
         })
       })
 
@@ -72,10 +71,5 @@ export default class FrequencyDomainLandscape {
 
       offsetX += offsetChange
     }
-  }
-
-  public onWindowSizeChange() {
-    this.width = this.parentElement.clientWidth
-    this.height = this.parentElement.clientHeight
   }
 }
